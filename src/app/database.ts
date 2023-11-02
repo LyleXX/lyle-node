@@ -28,6 +28,5 @@ connectionPool.getConnection((err: Error | null, connection: mysql.PoolConnectio
 })
 
 // 3.获取连接池中连接对象（异步的）
-const connection = connectionPool.promise()
+export default connectionPool.promise()
 
-module.exports = connection
