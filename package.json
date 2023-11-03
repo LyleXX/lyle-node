@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest src/router/**/__test__/*.test.ts",
-    "start": "tsnd -P ./tsconfig.json --respawn ./src/main.ts"
+    "test": "jest src/router/**/__test__/*.test.ts ",
+    "start": "set NODE_ENV=development && tsnd -P ./tsconfig.json --respawn ./src/main.ts"
   },
   "keywords": [],
   "author": "",

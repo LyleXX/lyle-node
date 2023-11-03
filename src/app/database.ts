@@ -14,13 +14,13 @@ const connectionPool: any = mysql.createPool({
 connectionPool.getConnection((err: Error | null, connection: mysql.PoolConnection) => {
   // 1.连接失败
   if (err) {
-    console.log('连接失败', err)
+    // console.log('连接失败', err)
     return
   }
   // 2.连接成功
   connection.connect(err => {
     if (err) {
-      console.log('数据库连接失败', err)
+      // console.log('数据库连接失败', err)
       return
     }
     console.log('数据库连接成功')
