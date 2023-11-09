@@ -1,5 +1,7 @@
 import { Context } from "koa";
 import { register } from '@/service/user.service'
+import {PRIVATE_KEY}  from '@/config/secret'
+import jwt from 'jsonwebtoken'
 
 interface User {
   name: string;
@@ -14,4 +16,20 @@ export const handleRegister = async (ctx: Context) => {
     data: result
   }
 
+}
+
+export const handleLogin = async (ctx: Context) => {
+  const {id,name} = ctx.user
+
+  const token = jwt.sign({id,name},PRIVATE_KEY,{
+    expiresIn:60 * 60 * 24,
+    algorithm:'RS256',
+    allowInsecureKeySizes:true
+  })
+    ctx.body = {
+    code:0,
+      data:{
+      token,id,name
+      }
+    }
 }

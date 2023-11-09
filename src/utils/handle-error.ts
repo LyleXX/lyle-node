@@ -1,5 +1,5 @@
 import app from '@/app'
-import { NAME_OR_PASSWORD_IS_REQUIRED, NAME_IS_ALREADY_EXISTS } from '@/config/error'
+import {NAME_OR_PASSWORD_IS_REQUIRED, NAME_IS_ALREADY_EXISTS, PASSWORD_IS_NOT_CORRECT} from '@/config/error'
 
 app.on('error', (err, ctx) => {
   let code = 0
@@ -13,6 +13,10 @@ app.on('error', (err, ctx) => {
     case NAME_IS_ALREADY_EXISTS:
       code = -1002
       message = '用户名已存在'
+      break;
+    case PASSWORD_IS_NOT_CORRECT:
+      code = -1003
+      message = '密码错误'
       break;
   }
   ctx.body = {
