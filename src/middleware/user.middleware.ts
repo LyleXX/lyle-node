@@ -1,7 +1,14 @@
-import {NAME_IS_ALREADY_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, PASSWORD_IS_NOT_CORRECT} from '@/config/error'
+import {
+  NAME_IS_ALREADY_EXISTS,
+  NAME_OR_PASSWORD_IS_REQUIRED,
+  PASSWORD_IS_NOT_CORRECT,
+  UNAUTHORIZATION
+} from '@/config/error'
 import type { Context, Next } from 'koa'
 import { findUserByName } from '@/service/user.service'
 import { md5Password } from '@/utils/utils'
+import jwt from "jsonwebtoken";
+import {PUBLIC_KEY} from "@/config/secret";
 
 
 interface User {
@@ -48,4 +55,21 @@ export const verifyLogin = async (ctx:Context,next:Next) =>{
   }
   ctx.user = user
   await next()
+}
+
+export const verifyAuth = async(ctx:Context,next:Next) =>{
+const authorization = ctx.headers.authorization
+  if(!authorization){
+    return ctx.app.emit('error', UNAUTHORIZATION, ctx)
+  }
+  const token = authorization.replace('Bearer ','')
+  try{
+    const result = jwt.verify(token,PUBLIC_KEY,{
+      algorithms:['RS256']
+    })
+    ctx.user = result
+    await next()
+  }catch (err){
+    ctx.app.emit('error', UNAUTHORIZATION, ctx)
+  }
 }
