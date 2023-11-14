@@ -68,8 +68,10 @@ const authorization = ctx.headers.authorization
       algorithms:['RS256']
     })
     ctx.user = result
+    console.log(result)
     await next()
   }catch (err){
+    console.log('2')
     ctx.app.emit('error', UNAUTHORIZATION, ctx)
   }
 }
