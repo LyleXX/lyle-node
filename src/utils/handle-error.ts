@@ -3,7 +3,7 @@ import {
   NAME_OR_PASSWORD_IS_REQUIRED,
   NAME_IS_ALREADY_EXISTS,
   PASSWORD_IS_NOT_CORRECT,
-  UNAUTHORIZATION, BLOG_CAN_NOT_BE_EMPTY, OPERATION_IS_NOT_ALLOWED
+  UNAUTHORIZATION, BLOG_CAN_NOT_BE_EMPTY, OPERATION_IS_NOT_ALLOWED, NAME_IS_NOT_EXISTS
 } from '@/config/error'
 
 app.on('error', (err, ctx) => {
@@ -35,7 +35,10 @@ app.on('error', (err, ctx) => {
             code = -1006
             message = '操作不允许'
             break;
-
+        case NAME_IS_NOT_EXISTS:
+          code = -1007
+          message = '用户名不存在'
+            break;
   }
   ctx.body = {
     code,

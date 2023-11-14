@@ -1,5 +1,5 @@
 import {
-  NAME_IS_ALREADY_EXISTS,
+  NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS,
   NAME_OR_PASSWORD_IS_REQUIRED,
   PASSWORD_IS_NOT_CORRECT,
   UNAUTHORIZATION
@@ -48,7 +48,7 @@ export const verifyLogin = async (ctx:Context,next:Next) =>{
     const users = await findUserByName(name)
   const user = users[0]
   if (!user) {
-    return ctx.app.emit('error', NAME_IS_ALREADY_EXISTS, ctx)
+    return ctx.app.emit('error', NAME_IS_NOT_EXISTS, ctx)
   }
   if(user.password !== md5Password(password)){
     return ctx.app.emit('error', PASSWORD_IS_NOT_CORRECT, ctx)
@@ -68,10 +68,8 @@ const authorization = ctx.headers.authorization
       algorithms:['RS256']
     })
     ctx.user = result
-    console.log(result)
     await next()
   }catch (err){
-    console.log('2')
     ctx.app.emit('error', UNAUTHORIZATION, ctx)
   }
 }
