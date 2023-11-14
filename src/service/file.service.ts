@@ -1,10 +1,11 @@
 import connection from '@/app/database'
 
-export const createPicture = async(filename:string, mimetype:string, size:number, userId:string) =>{
+export const createPicture = async(filename:string, mimetype:string, size:number) =>{
+
     const statement =`
-    INSERT INTO picture (filename,mimetype,size,user_id) VALUES (?,?,?,?);
+    INSERT INTO picture (filename,mimetype,size) VALUES (?,?,?);
     `
-    const [result] = await connection.execute(statement,[filename,mimetype,size,userId])
+    const [result] = await connection.execute(statement,[filename,mimetype,size])
     return result
 }
 
